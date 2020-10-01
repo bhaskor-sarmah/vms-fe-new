@@ -1,0 +1,8 @@
+export const GET_ERRORS = "GET_ERRORS";
+export const GET_VEHICLES = "GET_PROJECTS";
+export const GET_VEHICLE = "GET_PROJECT";
+export const DELETE_VEHICLE = "DELETE_PROJECT";
+
+export const SET_USER_LOADING = "SET_USER_LOADING";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const SET_LOGOUT_USER = "SET_LOGOUT_USER";

@@ -1,6 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
+import { logout } from "../../store/actions/securityActions";
 
-const Header = () => {
+const Header = (props) => {
+  const handleLogout = (e) => {
+    e.preventDefault();
+    props.logout();
+    // props.history.push("/");
+  };
   return (
     <nav className='main-header navbar navbar-expand navbar-white navbar-light'>
       {/* Left navbar links */}
@@ -39,10 +46,11 @@ const Header = () => {
             className='nav-link'
             data-widget='control-sidebar'
             data-slide='true'
-            href='url'
+            href='logout'
+            onClick={handleLogout}
             role='button'
           >
-            <i className='fas fa-sign-out' /> Logout
+            <i className='nav-icon fas fa-sign-out-alt' /> Logout
           </a>
         </li>
       </ul>
@@ -50,4 +58,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default connect(null, { logout })(Header);

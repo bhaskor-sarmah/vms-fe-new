@@ -1,7 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import UserImage from "../../assets/image/user2-160x160.jpg";
+import { logout } from "../../store/actions/securityActions";
+import { connect } from "react-redux";
+import UserLinks from "../routes/UserLinks";
 
-const Menu = () => {
+const Menu = (props) => {
+  const handleLogout = (e) => {
+    e.preventDefault();
+    props.logout();
+    // props.history.push("/");
+  };
   return (
     <aside className='main-sidebar sidebar-dark-primary elevation-4'>
       {/* Sidebar */}
@@ -29,36 +38,23 @@ const Menu = () => {
             role='menu'
             data-accordion='false'
           >
-            {/* Add icons to the links using the .nav-icon class
-         with font-awesome or any other icon font library */}
             <li className='nav-item'>
-              <a href='pages/widgets.html' className='nav-link'>
-                <i className='nav-icon fas fa-th' />
-                <p>Dashboard</p>
-              </a>
+              <Link to='/dashboard' className='nav-link'>
+                <i className='nav-icon fas fa-home' />
+                <p>Home</p>
+              </Link>
             </li>
-            <li className='nav-item'>
-              <a href='pages/widgets.html' className='nav-link'>
-                <i className='nav-icon fas fa-th' />
-                <p>Trip</p>
-              </a>
-            </li>
-            <li className='nav-item'>
-              <a href='pages/widgets.html' className='nav-link'>
-                <i className='nav-icon fas fa-th' />
-                <p>Token</p>
-              </a>
-            </li>
+            <UserLinks />
             <li className='nav-header'>USER MANAGEMENT</li>
             <li className='nav-item'>
-              <a href='pages/calendar.html' className='nav-link'>
-                <i className='nav-icon fas fa-calendar-alt' />
+              <Link to='/forgot-password' className='nav-link'>
+                <i className='nav-icon fas fa-unlock-alt' />
                 <p>Change Password</p>
-              </a>
+              </Link>
             </li>
             <li className='nav-item'>
-              <a href='pages/calendar.html' className='nav-link'>
-                <i className='nav-icon fas fa-calendar-alt' />
+              <a href='logout' className='nav-link' onClick={handleLogout}>
+                <i className='nav-icon fas fa-sign-out-alt' />
                 <p>Logout</p>
               </a>
             </li>
@@ -71,4 +67,4 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default connect(null, { logout })(Menu);
