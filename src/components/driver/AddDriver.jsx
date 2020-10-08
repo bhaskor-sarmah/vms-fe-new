@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import classnames from "classnames";
 import ShowError from "../utils/ShowError";
 
-export default class AddDriver extends Component {
+class AddDriver extends Component {
   constructor() {
     super();
     this.state = {
@@ -21,6 +21,7 @@ export default class AddDriver extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
+
     console.log(this.state.formdata);
     // Add the role id during save
   };
@@ -179,3 +180,5 @@ export default class AddDriver extends Component {
     );
   }
 }
+
+export default AddDriver;

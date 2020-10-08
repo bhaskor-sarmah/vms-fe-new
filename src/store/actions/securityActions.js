@@ -1,11 +1,11 @@
 import axios from "axios";
-import { GET_ERRORS, SET_CURRENT_USER, SET_USER_LOADING } from "./types";
+import { GET_AUTH_ERRORS, SET_CURRENT_USER, SET_USER_LOADING } from "./types";
 import setJWTToken from "../../security/setJWTToken";
-import isDev from "../../utils/devDetect";
+import { dispatchAction } from "./globalDispatch";
 
 export const login = (LoginRequest) => {
   return (dispatch, getState) => {
-    dispatch(setUserLoading(true));
+    dispatch(dispatchAction(SET_USER_LOADING, true));
     axios
       .post("/login", LoginRequest)
       .then((res) => {
@@ -26,7 +26,9 @@ export const login = (LoginRequest) => {
         dispatch(setCurrentUser(userDetails));
       })
       .catch((error) => {
-        dispatch(getErrors(error));
+        dispatch(
+          dispatchAction(GET_AUTH_ERRORS, { error: "Invalid Credentials" })
+        );
       });
   };
 };
@@ -39,31 +41,9 @@ export const logout = () => (dispatch) => {
   dispatch(setCurrentUser(null));
 };
 
-const setUserLoading = (payload) => {
-  return {
-    type: SET_USER_LOADING,
-    payload: payload,
-  };
-};
-
 const setCurrentUser = (userDetails) => {
   return {
     type: SET_CURRENT_USER,
     payload: userDetails,
-  };
-};
-
-const getErrors = (error) => {
-  if (isDev()) {
-    // Log the error if in development mode
-    if (error.response) {
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    }
-  }
-  return {
-    type: GET_ERRORS,
-    payload: { error: "Invalid Credentials" },
   };
 };
