@@ -1,5 +1,6 @@
 import Sample from "../layouts/Sample";
 import Driver from "../driver/Driver";
+import Vehicle from "../vehicle/Vehicle";
 export const roleWiseRoutes = [
   {
     role: "mto_trip_manager",
@@ -14,7 +15,7 @@ export const roleWiseRoutes = [
       {
         id: 2,
         route: "/dashboard/vehicle-entry",
-        component: Sample,
+        component: Vehicle,
         name: "Vehicles",
         icon: "fas fa-car-alt",
       },

@@ -1,104 +1,50 @@
-import React from "react";
-import styled from "styled-components";
-import { Table } from "./AllDriverTable";
-
-const Styles = styled.div`
-  padding: 1rem;
-
-  table {
-    border-spacing: 0;
-    border: 1px solid black;
-
-    tr {
-      :last-child {
-        td {
-          border-bottom: 0;
-        }
-      }
-    }
-
-    th,
-    td {
-      margin: 0;
-      padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-
-      :last-child {
-        border-right: 0;
-      }
-    }
-  }
-
-  .pagination {
-    padding: 0.5rem;
-  }
-`;
+import React, { useEffect } from "react";
+import { CustomTable } from "../utils/CustomTable";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllDrivers } from "../../store/actions/driverActions";
+import { TableStyles } from "../../utils/styles/CommonStyles";
 
 const AllDrivers = () => {
+  const dispatch = useDispatch();
+
   const columns = React.useMemo(
     () => [
       {
         Header: "ID",
-        accessor: "_id",
+        accessor: "id",
       },
       {
         Header: "NAME",
         accessor: "name",
       },
       {
-        Header: "TRIPS",
-        accessor: "trips",
+        Header: "MOBILE NO",
+        accessor: "mobile",
       },
       {
-        Header: "COUNTRY",
-        accessor: "airline.country",
+        Header: "EMAIL",
+        accessor: "email",
       },
       {
-        Header: "HEAD QUATERS",
-        accessor: "airline.head_quaters",
+        Header: "DRIVER LICENCE NO",
+        accessor: "drivingLicenceNo",
       },
+
       {
-        Header: "ESTABLISHED",
-        accessor: "airline.established",
+        Header: "USERNAME",
+        accessor: "username",
       },
     ],
     []
   );
 
-  // We'll start our table without any data
-  const [data, setData] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
-  const [pageCount, setPageCount] = React.useState(0);
-  const fetchIdRef = React.useRef(0);
+  const driverState = useSelector((state) => state.driver);
 
-  const fetchData = React.useCallback(({ pageSize, pageIndex }) => {
-    // This will get called when the table needs new data
-    // You could fetch your data from literally anywhere,
-    // even a server. But for this example, we'll just fake it.
-
-    // Give this fetch an ID
-    const fetchId = ++fetchIdRef.current;
-
-    // Set the loading state
-    setLoading(true);
-
-    // Only update the data if this is the latest fetch
-    if (fetchId === fetchIdRef.current) {
-      fetch(
-        `https://api.instantwebtools.net/v1/passenger?page=${pageIndex}&size=${pageSize}`
-      )
-        .then((res) => res.json())
-        .then((json) => {
-          if (fetchId === fetchIdRef.current) {
-            setData(json.data);
-            setPageCount(Math.ceil(json.totalPassengers / pageSize));
-            // No of pages
-            setLoading(false);
-          }
-        });
-    }
-  }, []);
+  const fetchData = React.useCallback(() => {
+    console.log("fired fetchData");
+    // return dispatch(getAllDrivers());
+    dispatch(getAllDrivers());
+  }, [dispatch]);
 
   return (
     <div
@@ -107,15 +53,15 @@ const AllDrivers = () => {
       role='tabpanel'
       aria-labelledby='All Driver'
     >
-      <Styles>
-        <Table
+      <TableStyles>
+        <CustomTable
           columns={columns}
-          data={data}
+          allData={driverState.driverList}
           fetchData={fetchData}
-          loading={loading}
-          pageCount={pageCount}
+          loading={driverState.driverLoading}
+          // pageCount={pageCount}
         />
-      </Styles>
+      </TableStyles>
     </div>
   );
 };

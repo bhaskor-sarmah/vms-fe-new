@@ -1,7 +1,13 @@
 import axios from "axios";
-import { GET_AUTH_ERRORS, SET_CURRENT_USER, SET_USER_LOADING } from "./types";
+import {
+  ERRORS_AUTH,
+  SET_CURRENT_USER,
+  USER_LOGOUT,
+  SET_USER_LOADING,
+} from "./types";
 import setJWTToken from "../../security/setJWTToken";
 import { dispatchAction } from "./globalDispatch";
+import isDev from "../../utils/devDetect";
 
 export const login = (LoginRequest) => {
   return (dispatch, getState) => {
@@ -23,27 +29,19 @@ export const login = (LoginRequest) => {
         };
 
         // dispatch to our securityReducer
-        dispatch(setCurrentUser(userDetails));
+        dispatch(dispatchAction(SET_CURRENT_USER, userDetails));
       })
       .catch((error) => {
-        dispatch(
-          dispatchAction(GET_AUTH_ERRORS, { error: "Invalid Credentials" })
-        );
+        isDev() && console.log(error);
+        dispatch(dispatchAction(SET_USER_LOADING, false));
+        dispatch(dispatchAction(ERRORS_AUTH, "Invalid Credentials"));
       });
   };
 };
 
 export const logout = () => (dispatch) => {
-  console.log("Logout Clicked");
   localStorage.removeItem("jwtToken");
   localStorage.removeItem("userDetails");
   setJWTToken(false);
-  dispatch(setCurrentUser(null));
-};
-
-const setCurrentUser = (userDetails) => {
-  return {
-    type: SET_CURRENT_USER,
-    payload: userDetails,
-  };
+  dispatch(dispatchAction(USER_LOGOUT, null));
 };

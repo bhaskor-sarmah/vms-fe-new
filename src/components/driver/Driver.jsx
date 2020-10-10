@@ -1,10 +1,16 @@
 import React, { Fragment } from "react";
-import { Link, useLocation } from "react-router-dom";
 import AddDriver from "./AddDriver";
 import AllDrivers from "./AllDrivers";
+import { useDispatch } from "react-redux";
+import { getAllDrivers } from "../../store/actions/driverActions";
 
 const Driver = () => {
-  const location = useLocation();
+  const dispatch = useDispatch();
+
+  const handleAllDriverClick = () => {
+    dispatch(getAllDrivers());
+  };
+
   return (
     <Fragment>
       <div className='content-header'>
@@ -47,8 +53,9 @@ const Driver = () => {
                 data-toggle='tab'
                 href='#allDriver'
                 role='tab'
-                aria-controls='Add Driver'
+                aria-controls='All Drivers'
                 aria-selected='false'
+                onClick={handleAllDriverClick}
               >
                 All Drivers
               </a>

@@ -1,13 +1,18 @@
-import { GET_ALL_DRIVERS, SET_DRIVER_LOADING } from "../actions/types";
+import {
+  GET_ALL_DRIVERS,
+  SET_DRIVER_LOADING,
+  ADD_DRIVER_LOADING,
+  ADD_DRIVER,
+} from "../actions/types";
 
 const initialState = {};
 
-const vehicleReducer = (state = initialState, action) => {
+const driverReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_DRIVER_LOADING:
       return {
         ...state,
-        driverLoading: true,
+        driverLoading: action.payload,
       };
     case GET_ALL_DRIVERS:
       return {
@@ -15,9 +20,20 @@ const vehicleReducer = (state = initialState, action) => {
         driverList: action.payload,
         driverLoading: false,
       };
+    case ADD_DRIVER_LOADING:
+      return {
+        ...state,
+        addDriverLoading: true,
+      };
+    case ADD_DRIVER:
+      return {
+        ...state,
+        addedDriver: action.payload,
+        addDriverLoading: false,
+      };
     default:
       return state;
   }
 };
 
-export default vehicleReducer;
+export default driverReducer;

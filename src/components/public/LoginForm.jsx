@@ -95,7 +95,7 @@ class LoginForm extends Component {
             style={{ borderRight: "1px solid lightgrey" }}
           />
         </div>
-        {this.state.errors.error && (
+        {this.state.errors.authError && (
           <div
             className='alert alert-danger'
             role='alert'
@@ -105,7 +105,7 @@ class LoginForm extends Component {
               border: "1px solid #EBCCD1",
             }}
           >
-            {this.state.errors.error}
+            {this.state.errors.authError}
           </div>
         )}
         <div className='row'>
