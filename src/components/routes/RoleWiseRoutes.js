@@ -1,6 +1,7 @@
 import Sample from "../layouts/Sample";
 import Driver from "../driver/Driver";
 import Vehicle from "../vehicle/Vehicle";
+import Token from "../token/Token";
 export const roleWiseRoutes = [
   {
     role: "mto_trip_manager",
@@ -29,7 +30,7 @@ export const roleWiseRoutes = [
       {
         id: 4,
         route: "/dashboard/token",
-        component: Sample,
+        component: Token,
         name: "Token",
         icon: "fas fa-qrcode",
       },

@@ -227,7 +227,7 @@ class AddDriver extends Component {
 
 export default connect(
   (state) => ({
-    addDriverError: state.errors.addDriverError,
+    addDriverError: state.driver.addDriverError,
     addDriverLoading: state.driver.addDriverLoading,
   }),
   { addNewDrivers }

@@ -1,6 +1,12 @@
 import styled from "styled-components";
 
-export const TableStyles = styled.div`
+export const alertDanger = {
+  backgroundColor: "#f8d7da",
+  color: "#A94442",
+  border: "1px solid #EBCCD1",
+};
+
+export const CustomTableStyles = styled.div`
   padding: 1rem;
 
   table {
@@ -23,7 +29,7 @@ export const TableStyles = styled.div`
       border-right: 1px solid black;
 
       :last-child {
-        border-right: 0;
+        border-right: 1;
       }
     }
   }

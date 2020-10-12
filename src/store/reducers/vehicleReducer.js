@@ -9,9 +9,30 @@ import {
   GET_ALL_VEHICLE_FUELTYPE,
   GET_VEHICLE_TYPE_LOADING,
   GET_ALL_VEHICLE_TYPE,
+  ERRORS_GET_ALL_VEHICLES,
+  ERRORS_ADD_VEHICLE,
+  ERRORS_GET_VEHICLE_CATEGORY,
+  ERRORS_GET_VEHICLE_FUELTYPE,
+  ERRORS_GET_VEHICLE_TYPE,
 } from "../actions/types";
 
-const initialState = {};
+const initialState = {
+  vehicleLoading: false,
+  vehicleList: [],
+  addVehicleLoading: false,
+  addedVehicle: {},
+  getVehicleCategoryLoading: false,
+  vehicleCategoryList: [],
+  getVehicleTypeLoading: false,
+  vehicleTypeList: [],
+  getVehicleFuelTypeLoading: false,
+  vehicleFuelTypeList: [],
+  getVehicleError: null,
+  addVehicleError: null,
+  getVehicleCategoryError: null,
+  getVehicleFuelTypeError: null,
+  getVehicleTypeError: null,
+};
 
 const vehicleReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -25,6 +46,7 @@ const vehicleReducer = (state = initialState, action) => {
         ...state,
         vehicleList: action.payload,
         vehicleLoading: false,
+        getVehicleError: null,
       };
     case ADD_VEHICLE_LOADING:
       return {
@@ -36,6 +58,7 @@ const vehicleReducer = (state = initialState, action) => {
         ...state,
         addedVehicle: action.payload,
         addVehicleLoading: false,
+        addVehicleError: null,
       };
     case GET_VEHICLE_CATEGORY_LOADING:
       return {
@@ -47,6 +70,7 @@ const vehicleReducer = (state = initialState, action) => {
         ...state,
         vehicleCategoryList: action.payload,
         getVehicleCategoryLoading: false,
+        getVehicleCategoryError: null,
       };
     case GET_VEHICLE_FUELTYPE_LOADING:
       return {
@@ -58,6 +82,7 @@ const vehicleReducer = (state = initialState, action) => {
         ...state,
         vehicleFuelTypeList: action.payload,
         getVehicleFuelTypeLoading: false,
+        getVehicleFuelTypeError: null,
       };
     case GET_VEHICLE_TYPE_LOADING:
       return {
@@ -69,6 +94,32 @@ const vehicleReducer = (state = initialState, action) => {
         ...state,
         vehicleTypeList: action.payload,
         getVehicleTypeLoading: false,
+        getVehicleTypeError: null,
+      };
+    case ERRORS_GET_ALL_VEHICLES:
+      return {
+        ...state,
+        getVehicleError: action.payload,
+      };
+    case ERRORS_ADD_VEHICLE:
+      return {
+        ...state,
+        addVehicleError: action.payload,
+      };
+    case ERRORS_GET_VEHICLE_CATEGORY:
+      return {
+        ...state,
+        getVehicleCategoryError: action.payload,
+      };
+    case ERRORS_GET_VEHICLE_FUELTYPE:
+      return {
+        ...state,
+        getVehicleFuelTypeError: action.payload,
+      };
+    case ERRORS_GET_VEHICLE_TYPE:
+      return {
+        ...state,
+        getVehicleTypeError: action.payload,
       };
     default:
       return state;

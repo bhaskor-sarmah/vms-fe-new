@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { CustomTable } from "../utils/CustomTable";
+import ReactTableWithoutControllPagination from "../utils/reactTable/ReactTableWithoutControllPagination";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllDrivers } from "../../store/actions/driverActions";
-import { TableStyles } from "../../utils/styles/CommonStyles";
+import { NotificationManager } from "react-notifications";
 
 const AllDrivers = () => {
   const dispatch = useDispatch();
@@ -38,13 +38,28 @@ const AllDrivers = () => {
     []
   );
 
-  const driverState = useSelector((state) => state.driver);
+  const driverList = useSelector((state) => state.driver.driverList) || [
+    {
+      id: "",
+      name: "",
+      mobile: "",
+      email: "",
+      drivingLicenceNo: "",
+      username: "",
+    },
+  ];
+  const driverLoading = useSelector((state) => state.driver.driverLoading);
 
-  const fetchData = React.useCallback(() => {
-    console.log("fired fetchData");
-    // return dispatch(getAllDrivers());
+  const getDriverError = useSelector((state) => state.driver.getDriverError);
+  useEffect(() => {
     dispatch(getAllDrivers());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (getDriverError) {
+      NotificationManager.error(getDriverError, "Error", 3000);
+    }
+  }, [getDriverError]);
 
   return (
     <div
@@ -53,15 +68,11 @@ const AllDrivers = () => {
       role='tabpanel'
       aria-labelledby='All Driver'
     >
-      <TableStyles>
-        <CustomTable
-          columns={columns}
-          allData={driverState.driverList}
-          fetchData={fetchData}
-          loading={driverState.driverLoading}
-          // pageCount={pageCount}
-        />
-      </TableStyles>
+      <ReactTableWithoutControllPagination
+        columns={columns}
+        data={driverList}
+        loading={driverLoading}
+      />
     </div>
   );
 };

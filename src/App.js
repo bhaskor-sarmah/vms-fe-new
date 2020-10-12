@@ -11,6 +11,7 @@ import { SET_CURRENT_USER } from "./store/actions/types";
 import { logout } from "./store/actions/securityActions";
 import setJWTToken from "./security/setJWTToken";
 import jwt_decode from "jwt-decode";
+import { NotificationContainer } from "react-notifications";
 
 function App(props) {
   let initialRoute = "/login";
@@ -48,6 +49,7 @@ function App(props) {
   return (
     <Fragment>
       {/* <Notifier /> */}
+      <NotificationContainer />
       <Switch>
         <PrivateRoute path={`/dashboard`} component={Dashboard} {...props} />
         <PublicRoute path='/login' component={Login} {...props} />

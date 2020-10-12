@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { CustomTable } from "../utils/CustomTable";
+// import { CustomTable } from "../utils/CustomTable";
+import ReactTableWithoutControllPagination from "../utils/reactTable/ReactTableWithoutControllPagination";
 import { useDispatch, useSelector } from "react-redux";
-import { TableStyles } from "../../utils/styles/CommonStyles";
 import { getAllVehicles } from "../../store/actions/vehicleActions";
 
 const AllVehicle = () => {
@@ -42,9 +42,20 @@ const AllVehicle = () => {
     []
   );
 
-  const vehicleList = useSelector((state) => state.vehicle.vehicleList);
+  const vehicleList = useSelector((state) => state.vehicle.vehicleList) || [
+    {
+      id: "",
+      regNo: "",
+      categoryName: "",
+      type: "",
+      fuelType: "",
+      modelName: "",
+      mileage: "",
+    },
+  ];
   const vehicleLoading = useSelector((state) => state.vehicle.vehicleLoading);
-  const fetchData = React.useCallback(() => {
+
+  useEffect(() => {
     dispatch(getAllVehicles());
   }, [dispatch]);
 
@@ -55,15 +66,11 @@ const AllVehicle = () => {
       role='tabpanel'
       aria-labelledby='All Vehicle'
     >
-      <TableStyles>
-        <CustomTable
-          columns={columns}
-          allData={vehicleList}
-          fetchData={fetchData}
-          loading={vehicleLoading}
-          // pageCount={pageCount}
-        />
-      </TableStyles>
+      <ReactTableWithoutControllPagination
+        columns={columns}
+        data={vehicleList}
+        loading={vehicleLoading}
+      />
     </div>
   );
 };

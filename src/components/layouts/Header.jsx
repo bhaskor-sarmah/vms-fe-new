@@ -3,6 +3,12 @@ import { connect } from "react-redux";
 import { logout } from "../../store/actions/securityActions";
 
 const Header = (props) => {
+  // const [searchText, setSearchText] = useState("");
+
+  const handleOnSearch = (e) => {
+    e.preventDefault();
+  };
+
   const handleLogout = (e) => {
     e.preventDefault();
     props.logout();
@@ -24,7 +30,7 @@ const Header = (props) => {
         </li>
       </ul>
       {/* SEARCH FORM */}
-      <form className='form-inline ml-3'>
+      <form className='form-inline ml-3' onSubmit={handleOnSearch}>
         <div className='input-group input-group-sm'>
           <input
             className='form-control form-control-navbar'

@@ -1,29 +1,19 @@
-import React from "react";
+import React, { Fragment } from "react";
 
+// Simple custom table implementation by me
 export const CustomTable = ({
   columns,
   allData,
-  fetchData,
   loading,
   // loading,
   // pageCount: controlledPageCount,
 }) => {
-  // Listen for changes in pagination and use the state to fetch our new data
-  React.useEffect(() => {
-    fetchData();
-    // This is a initial fetch, we can provide page no
-    // as dependent variable to fetch on page change
-  }, [fetchData]);
-  console.log(columns);
-  console.log(allData);
-  // console.log(loading);
-  // Render the UI for your table
   return loading ? (
     // Use our custom loading state to show a loading indicator
     <h3>Loading...</h3>
   ) : (
     // If not loading show the table
-    <>
+    <Fragment>
       <table>
         <thead>
           <tr>
@@ -48,6 +38,6 @@ export const CustomTable = ({
             ))}
         </tbody>
       </table>
-    </>
+    </Fragment>
   );
 };

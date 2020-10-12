@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { PropTypes } from "prop-types";
 import { connect } from "react-redux";
 import { login } from "../../store/actions/securityActions";
+import { alertDanger } from "../../utils/styles/CommonStyles";
 
 class LoginForm extends Component {
   constructor() {
@@ -9,7 +10,7 @@ class LoginForm extends Component {
     this.state = {
       username: "",
       password: "",
-      errors: {},
+      authError: "",
     };
   }
 
@@ -24,22 +25,12 @@ class LoginForm extends Component {
       this.props.history.push("/dashboard");
     }
 
-    if (nextProps.errors) {
+    if (nextProps.authError) {
       this.setState({
-        errors: nextProps.errors,
+        authError: nextProps.authError,
       });
     }
   }
-
-  // static getDerivedStateFromProps(nextProps) {
-  //   if (nextProps.security.validToken) {
-  //     this.props.history.push("/dashboard");
-  //   }
-
-  //   if (nextProps.errors) {
-  //     this.setState({ errors: nextProps.errors });
-  //   }
-  // }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -95,17 +86,9 @@ class LoginForm extends Component {
             style={{ borderRight: "1px solid lightgrey" }}
           />
         </div>
-        {this.state.errors.authError && (
-          <div
-            className='alert alert-danger'
-            role='alert'
-            style={{
-              backgroundColor: "#f8d7da",
-              color: "#A94442",
-              border: "1px solid #EBCCD1",
-            }}
-          >
-            {this.state.errors.authError}
+        {this.state.authError && (
+          <div className='alert alert-danger' role='alert' style={alertDanger}>
+            {this.state.authError}
           </div>
         )}
         <div className='row'>
@@ -122,13 +105,13 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   login: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
+  authError: PropTypes.object.isRequired,
   security: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   security: state.security,
-  errors: state.errors,
+  authError: state.security.authError,
 });
 
 export default connect(mapStateToProps, { login })(LoginForm);
