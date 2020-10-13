@@ -3,13 +3,20 @@ import CreateTokenForm from "./CreateTokenForm";
 import TokensPendingApproval from "./TokensPendingApproval";
 
 const CreateToken = () => {
-  // {
-  //     vehicleRegNo: "",
-  //     fuelInLtrs: "",
-  //     driverId: "",
-  //     assignedTo: "",
-  //     purpose: ""
-  // }
+  // <input
+  //       type="text"
+  //       id="name"
+  //       aria-invalid={errors.name ? "true" : "false"}
+  //       ref={register({ required: true, maxLength: 30 })}
+  //     />
+
+  //     {/* use role="alert" to announce the error message */}
+  //     {errors.name && errors.name.type === "required" && (
+  //       <span role="alert">This is required</span>
+  //     )}
+  //     {errors.name && errors.name.type === "maxLength" && (
+  //       <span role="alert">Max length exceeded</span>
+  //     )}
 
   return (
     <div

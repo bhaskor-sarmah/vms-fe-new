@@ -1,6 +1,8 @@
 import { SET_NOTIFICATION } from "../actions/types";
 
-const initialState = {};
+const initialState = {
+  message: "",
+};
 
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {

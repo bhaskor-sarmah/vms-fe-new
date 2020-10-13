@@ -4,8 +4,12 @@ import { getAllDrivers } from "../../store/actions/driverActions";
 import { getAllVehicles } from "../../store/actions/vehicleActions";
 import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
+import { useForm } from "react-hook-form";
+import classnames from "classnames";
+import { generateNewToken } from "../../store/actions/tokenActions";
 
 const CreateTokenForm = () => {
+  const { register, handleSubmit, watch, errors } = useForm();
   const dispatch = useDispatch();
 
   const vehicleList = useSelector((state) => state.vehicle.vehicleList);
@@ -19,6 +23,9 @@ const CreateTokenForm = () => {
   const getAllDriversError = useSelector(
     (state) => state.driver.getDriverError
   );
+  const addTokenLoading = useSelector((state) => state.token.addTokenLoading);
+  const addTokenError = useSelector((state) => state.token.addTokenError);
+  const successAddToken = useSelector((state) => state.notification.message);
 
   useEffect(() => {
     dispatch(getAllVehicles());
@@ -37,6 +44,27 @@ const CreateTokenForm = () => {
     }
   }, [getAllDriversError]);
 
+  const onSubmit = (data, e) => {
+    dispatch(generateNewToken(data));
+    e.target.reset();
+  };
+
+  useEffect(() => {
+    if (addTokenError) {
+      NotificationManager.error("Error Generating new Token !", "Error", 3000);
+    }
+  }, [addTokenError]);
+
+  useEffect(() => {
+    if (successAddToken) {
+      NotificationManager.success(
+        "Token Generated successfully !",
+        "Success",
+        3000
+      );
+    }
+  }, [successAddToken]);
+
   return (
     <div className='card'>
       <div className='card-header'>
@@ -47,19 +75,30 @@ const CreateTokenForm = () => {
         <div className='card-body'>
           <h3>Loading...</h3>
         </div>
+      ) : addTokenLoading ? (
+        <div className='card-body'>
+          <h3>Generating New Token...</h3>
+        </div>
       ) : (
         // No Loading No Errors
-        <form className='form-horizontal'>
+        <form className='form-horizontal' onSubmit={handleSubmit(onSubmit)}>
           <div className='card-body'>
             <div className='form-group row'>
-              <label
-                htmlFor='inputPassword3'
-                className='col-sm-4 col-form-label'
-              >
+              <label htmlFor='vehicleRegNo' className='col-sm-4 col-form-label'>
                 Select Vehicle
               </label>
               <div className='col-sm-8'>
-                <select className='custom-select'>
+                <select
+                  className={classnames("custom-select", {
+                    "is-invalid": errors.vehicleRegNo,
+                  })}
+                  name='vehicleRegNo'
+                  id='vehicleRegNo'
+                  ref={register({ required: true })}
+                >
+                  <option value='' selected>
+                    ---SELECT---
+                  </option>
                   {vehicleList &&
                     vehicleList
                       .sort(
@@ -72,17 +111,30 @@ const CreateTokenForm = () => {
                         </option>
                       ))}
                 </select>
+                {errors.vehicleRegNo &&
+                  errors.vehicleRegNo.type === "required" && (
+                    <span role='alert' className='text-danger'>
+                      Please select vehicle
+                    </span>
+                  )}
               </div>
             </div>
             <div className='form-group row'>
-              <label
-                htmlFor='inputPassword3'
-                className='col-sm-4 col-form-label'
-              >
+              <label htmlFor='driverId' className='col-sm-4 col-form-label'>
                 Select Driver
               </label>
               <div className='col-sm-8'>
-                <select className='custom-select'>
+                <select
+                  className={classnames("custom-select", {
+                    "is-invalid": errors.driverId,
+                  })}
+                  name='driverId'
+                  id='driverId'
+                  ref={register({ required: true })}
+                >
+                  <option value='' selected>
+                    ---SELECT---
+                  </option>
                   {driverList &&
                     driverList
                       .sort((a, b) => a.name > b.name)
@@ -92,10 +144,15 @@ const CreateTokenForm = () => {
                         </option>
                       ))}
                 </select>
+                {errors.driverId && errors.driverId.type === "required" && (
+                  <span role='alert' className='text-danger'>
+                    Please select Driver
+                  </span>
+                )}
               </div>
             </div>
             <div className='form-group row'>
-              <label htmlFor='inputEmail3' className='col-sm-4 col-form-label'>
+              <label htmlFor='fuelInLtrs' className='col-sm-4 col-form-label'>
                 Enter Fuel
                 <p style={{ fontSize: "x-small", marginBottom: "0" }}>
                   (in Ltrs)
@@ -104,23 +161,46 @@ const CreateTokenForm = () => {
               <div className='col-sm-8'>
                 <input
                   type='number'
-                  className='form-control'
-                  id='inputEmail3'
+                  className={classnames("form-control", {
+                    "is-invalid": errors.fuelInLtrs,
+                  })}
                   placeholder='Enter Fuel in Ltrs'
+                  name='fuelInLtrs'
+                  id='fuelInLtrs'
+                  ref={register({ required: true, min: 0 })}
                 />
+                {errors.fuelInLtrs && errors.fuelInLtrs.type === "required" && (
+                  <span role='alert' className='text-danger'>
+                    Please enter Fuel in Ltrs
+                  </span>
+                )}
+                {errors.fuelInLtrs && errors.fuelInLtrs.type === "min" && (
+                  <span role='alert' className='text-danger'>
+                    Fuel in Ltrs cannot be less than 0.
+                  </span>
+                )}
               </div>
             </div>
             <div className='form-group row'>
-              <label htmlFor='inputEmail3' className='col-sm-4 col-form-label'>
+              <label htmlFor='purpose' className='col-sm-4 col-form-label'>
                 Purpose
               </label>
               <div className='col-sm-8'>
                 <input
-                  type='email'
-                  className='form-control'
-                  id='inputEmail3'
+                  type='text'
+                  className={classnames("form-control", {
+                    "is-invalid": errors.purpose,
+                  })}
                   placeholder='Enter Purpose of Trip'
+                  name='purpose'
+                  id='purpose'
+                  ref={register({ required: true })}
                 />
+                {errors.purpose && errors.purpose.type === "required" && (
+                  <span role='alert' className='text-danger'>
+                    Please enter purpose of trip
+                  </span>
+                )}
               </div>
             </div>
             <div className='form-group row'>
@@ -129,10 +209,11 @@ const CreateTokenForm = () => {
               </label>
               <div className='col-sm-8'>
                 <input
-                  type='email'
+                  type='text'
                   className='form-control'
-                  id='inputEmail3'
                   placeholder='Enter Officer Assigned To'
+                  name='assignedTo'
+                  ref={register({ required: false })}
                 />
               </div>
             </div>

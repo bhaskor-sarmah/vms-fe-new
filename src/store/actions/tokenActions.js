@@ -24,12 +24,6 @@ export const generateNewToken = (tokenData) => {
     axios
       .post("/common/FuelToken/generateTokenExtra", tokenData)
       .then((res) => {
-        // Sample Response
-        //   {
-        //     "message": "EXT1210201326",
-        //     "status": true
-        //   }
-
         console.log(res.data);
         if (!res.data.status) {
           throw new Error("Error Generating Token");
