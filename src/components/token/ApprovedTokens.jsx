@@ -67,11 +67,7 @@ const ApprovedTokens = () => {
 
   useEffect(() => {
     if (getApprovedTokenError) {
-      NotificationManager.error(
-        "Error fetching Approved Token List !",
-        "Error",
-        3000
-      );
+      NotificationManager.error(getApprovedTokenError, "Error", 3000);
     }
   }, [getApprovedTokenError]);
 

@@ -6,7 +6,12 @@ import { NotificationManager } from "react-notifications";
 import "react-notifications/lib/notifications.css";
 import { useForm } from "react-hook-form";
 import classnames from "classnames";
-import { generateNewToken } from "../../store/actions/tokenActions";
+import {
+  generateNewToken,
+  getApprovalPendingTokens,
+  restAddTokenErrorMessage,
+} from "../../store/actions/tokenActions";
+import { resetNotification } from "../../store/actions/globalDispatch";
 
 const CreateTokenForm = () => {
   const { register, handleSubmit, watch, errors } = useForm();
@@ -34,13 +39,13 @@ const CreateTokenForm = () => {
 
   useEffect(() => {
     if (getAllVehiclesError) {
-      NotificationManager.error("Error fetching Vehicle data !", "Error", 3000);
+      NotificationManager.error(getAllVehiclesError, "Error", 3000);
     }
   }, [getAllVehiclesError]);
 
   useEffect(() => {
     if (getAllDriversError) {
-      NotificationManager.error("Error fetching Driver data !", "Error", 3000);
+      NotificationManager.error(getAllDriversError, "Error", 3000);
     }
   }, [getAllDriversError]);
 
@@ -51,19 +56,18 @@ const CreateTokenForm = () => {
 
   useEffect(() => {
     if (addTokenError) {
-      NotificationManager.error("Error Generating new Token !", "Error", 3000);
+      NotificationManager.error(addTokenError, "Error", 3000);
+      dispatch(restAddTokenErrorMessage());
     }
-  }, [addTokenError]);
+  }, [dispatch, addTokenError]);
 
   useEffect(() => {
     if (successAddToken) {
-      NotificationManager.success(
-        "Token Generated successfully !",
-        "Success",
-        3000
-      );
+      NotificationManager.success(successAddToken, "Success", 3000);
+      dispatch(resetNotification());
+      dispatch(getApprovalPendingTokens());
     }
-  }, [successAddToken]);
+  }, [dispatch, successAddToken]);
 
   return (
     <div className='card'>
@@ -89,6 +93,7 @@ const CreateTokenForm = () => {
               </label>
               <div className='col-sm-8'>
                 <select
+                  defaultValue={""}
                   className={classnames("custom-select", {
                     "is-invalid": errors.vehicleRegNo,
                   })}
@@ -96,9 +101,7 @@ const CreateTokenForm = () => {
                   id='vehicleRegNo'
                   ref={register({ required: true })}
                 >
-                  <option value='' selected>
-                    ---SELECT---
-                  </option>
+                  <option value=''>---SELECT---</option>
                   {vehicleList &&
                     vehicleList
                       .sort(
@@ -125,6 +128,7 @@ const CreateTokenForm = () => {
               </label>
               <div className='col-sm-8'>
                 <select
+                  defaultValue={""}
                   className={classnames("custom-select", {
                     "is-invalid": errors.driverId,
                   })}
@@ -132,9 +136,7 @@ const CreateTokenForm = () => {
                   id='driverId'
                   ref={register({ required: true })}
                 >
-                  <option value='' selected>
-                    ---SELECT---
-                  </option>
+                  <option value=''>---SELECT---</option>
                   {driverList &&
                     driverList
                       .sort((a, b) => a.name > b.name)

@@ -11,6 +11,9 @@ const {
   ERRORS_GET_PENDING_TOKEN,
   ERRORS_GET_APPROVED_TOKEN,
   ERRORS_GET_REJECTED_TOKEN,
+  TOKEN_APPROVE_LOADING,
+  TOKEN_APPROVE_MESSAGE,
+  ERRORS_TOKEN_APPROVE,
 } = require("../actions/types");
 
 const initialState = {
@@ -26,6 +29,9 @@ const initialState = {
   getPendingTokenError: null,
   getApprovedTokenError: null,
   getRejectedTokenError: null,
+  tokenApproveMessage: null,
+  tokenApproveLoading: false,
+  tokenApproveError: null,
 };
 
 const tokenReducer = (state = initialState, action) => {
@@ -86,6 +92,7 @@ const tokenReducer = (state = initialState, action) => {
     case ERRORS_GET_PENDING_TOKEN:
       return {
         ...state,
+        pendingTokenList: [],
         getPendingTokenError: action.payload,
       };
     case ERRORS_GET_APPROVED_TOKEN:
@@ -97,6 +104,27 @@ const tokenReducer = (state = initialState, action) => {
       return {
         ...state,
         getRejectedTokenError: action.payload,
+      };
+    case TOKEN_APPROVE_LOADING:
+      return {
+        ...state,
+        tokenApproveMessage: null,
+        tokenApproveLoading: action.payload,
+        tokenApproveError: null,
+      };
+    case TOKEN_APPROVE_MESSAGE:
+      return {
+        ...state,
+        tokenApproveMessage: action.payload,
+        tokenApproveLoading: false,
+        tokenApproveError: null,
+      };
+    case ERRORS_TOKEN_APPROVE:
+      return {
+        ...state,
+        tokenApproveMessage: null,
+        tokenApproveLoading: false,
+        tokenApproveError: action.payload,
       };
     default:
       return state;

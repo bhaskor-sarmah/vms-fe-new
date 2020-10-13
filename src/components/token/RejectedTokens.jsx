@@ -66,11 +66,7 @@ const RejectedTokens = () => {
 
   useEffect(() => {
     if (getRejectedTokenError) {
-      NotificationManager.error(
-        "Error fetching Rejected Token List !",
-        "Error",
-        3000
-      );
+      NotificationManager.error(getRejectedTokenError, "Error", 3000);
     }
   }, [getRejectedTokenError]);
 
