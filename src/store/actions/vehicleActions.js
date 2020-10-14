@@ -122,3 +122,9 @@ export const getAllVehicleType = () => {
       });
   };
 };
+
+export const resetAddVehicleError = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: ERRORS_ADD_VEHICLE, payload: null });
+  };
+};

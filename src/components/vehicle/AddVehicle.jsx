@@ -1,4 +1,5 @@
 import React from "react";
+import AddVehicleForm from "./AddVehicleForm";
 
 // This page is done using old react lifecycle
 // hooks and doesnot implements react V16+ hooks
@@ -19,7 +20,7 @@ const AddVehicle = () => {
       role='tabpanel'
       aria-labelledby='Add Vehicle'
     >
-      Add Vehicle Tab
+      <AddVehicleForm />
     </div>
   );
 };

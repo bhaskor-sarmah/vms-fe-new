@@ -51,6 +51,7 @@ const driverReducer = (state = initialState, action) => {
       return {
         ...state,
         addDriverError: action.payload,
+        addDriverLoading: false,
       };
     default:
       return state;

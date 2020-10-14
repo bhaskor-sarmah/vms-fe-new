@@ -160,17 +160,17 @@ export const rejectToken = (tokenNo) => {
   };
 };
 
-export const restAddTokenErrorMessage = () => {
+export const resetAddTokenErrorMessage = () => {
   return (dispatch, getState) => {
     dispatch({ type: ERRORS_ADD_TOKEN, payload: null });
   };
 };
-export const restTokenApproveMessage = () => {
+export const resetTokenApproveMessage = () => {
   return (dispatch, getState) => {
     dispatch({ type: TOKEN_APPROVE_MESSAGE, payload: null });
   };
 };
-export const restTokenErrorMessage = () => {
+export const resetTokenErrorMessage = () => {
   return (dispatch, getState) => {
     dispatch({ type: ERRORS_TOKEN_APPROVE, payload: null });
   };

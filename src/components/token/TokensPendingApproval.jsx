@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { resetNotification } from "../../store/actions/globalDispatch";
 import {
   getApprovalPendingTokens,
-  restTokenApproveMessage,
-  restTokenErrorMessage,
+  resetTokenApproveMessage,
+  resetTokenErrorMessage,
 } from "../../store/actions/tokenActions";
 import { TOKEN_APPROVE_MESSAGE } from "../../store/actions/types";
 import TokenDetails from "./TokenDetails";
@@ -42,7 +42,7 @@ const TokensPendingApproval = () => {
   useEffect(() => {
     if (tokenApproveMessage) {
       NotificationManager.success(tokenApproveMessage, "Success", 3000);
-      dispatch(restTokenApproveMessage());
+      dispatch(resetTokenApproveMessage());
       dispatch(getApprovalPendingTokens());
     }
   }, [dispatch, tokenApproveMessage]);
@@ -50,7 +50,7 @@ const TokensPendingApproval = () => {
   useEffect(() => {
     if (tokenApproveError) {
       NotificationManager.error(tokenApproveError, "Error", 3000);
-      dispatch(restTokenErrorMessage());
+      dispatch(resetTokenErrorMessage());
     }
   }, [dispatch, tokenApproveError]);
 

@@ -9,7 +9,7 @@ import classnames from "classnames";
 import {
   generateNewToken,
   getApprovalPendingTokens,
-  restAddTokenErrorMessage,
+  resetAddTokenErrorMessage,
 } from "../../store/actions/tokenActions";
 import { resetNotification } from "../../store/actions/globalDispatch";
 
@@ -57,7 +57,7 @@ const CreateTokenForm = () => {
   useEffect(() => {
     if (addTokenError) {
       NotificationManager.error(addTokenError, "Error", 3000);
-      dispatch(restAddTokenErrorMessage());
+      dispatch(resetAddTokenErrorMessage());
     }
   }, [dispatch, addTokenError]);
 

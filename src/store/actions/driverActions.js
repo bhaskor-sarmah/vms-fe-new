@@ -54,3 +54,9 @@ export const addNewDrivers = (driverData) => {
       });
   };
 };
+
+export const resetAddDriverError = () => {
+  return (dispatch, getState) => {
+    dispatch({ type: ERRORS_ADD_DRIVER, payload: null });
+  };
+};
