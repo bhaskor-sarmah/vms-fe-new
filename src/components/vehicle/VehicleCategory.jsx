@@ -37,13 +37,21 @@ const VehicleCategory = () => {
       role='tabpanel'
       aria-labelledby='Vehicle Categories'
     >
-      <CustomTableStyles>
-        <CustomTable
-          columns={columns}
-          allData={vehicleCategoryList}
-          loading={getVehicleCategoryLoading}
-        />
-      </CustomTableStyles>
+      <div className='card'>
+        <div className='card-header'>
+          <div className='card-title'>Vehicle Category List</div>
+        </div>
+        <div className='card-body'>
+          <CustomTableStyles>
+            <CustomTable
+              columns={columns}
+              allData={vehicleCategoryList}
+              loading={getVehicleCategoryLoading}
+            />
+          </CustomTableStyles>
+        </div>
+        <div className='card-footer'></div>
+      </div>
     </div>
   );
 };

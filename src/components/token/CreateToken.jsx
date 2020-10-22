@@ -23,7 +23,7 @@ const CreateToken = () => {
       className='tab-pane fade show active'
       id='createToken'
       role='tabpanel'
-      aria-labelledby='Fuel Type'
+      aria-labelledby='Create Token'
     >
       <div className='row' style={{ paddingTop: "10px" }}>
         <div className='col-12 col-md-5'>

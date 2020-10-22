@@ -13,7 +13,7 @@ import isDev from "../../utils/devDetect";
 
 export const getAllDrivers = () => {
   return (dispatch, getState) => {
-    console.log("fired dispatch");
+    // console.log("fired dispatch");
     dispatch(dispatchAction(SET_DRIVER_LOADING, true));
     axios
       .get("/common/userManagement/GetUserByRole/driver")

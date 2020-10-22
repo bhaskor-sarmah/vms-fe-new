@@ -2,6 +2,7 @@ import Sample from "../layouts/Sample";
 import Driver from "../driver/Driver";
 import Vehicle from "../vehicle/Vehicle";
 import Token from "../token/Token";
+import Trip from "../trips/Trip";
 export const roleWiseRoutes = [
   {
     role: "mto_trip_manager",
@@ -23,7 +24,7 @@ export const roleWiseRoutes = [
       {
         id: 3,
         route: "/dashboard/trip",
-        component: Sample,
+        component: Trip,
         name: "Trip",
         icon: "fas fa-map-marked-alt",
       },

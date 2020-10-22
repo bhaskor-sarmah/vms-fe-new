@@ -96,7 +96,7 @@ const Vehicle = () => {
                 className='nav-link'
                 id='fuelTypes'
                 data-toggle='tab'
-                href='#fuelType'
+                href='#fuelTypeId'
                 role='tab'
                 aria-controls='Fuel Type'
                 aria-selected='false'

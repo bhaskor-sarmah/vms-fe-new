@@ -5,6 +5,7 @@ import vehicleReducer from "./vehicleReducer";
 import driverReducer from "./driverReducer";
 import { combineReducers } from "redux";
 import tokenReducer from "./tokenReducer";
+import tripReducer from "./tripReducer";
 
 const appReducer = combineReducers({
   security: securityReducer,
@@ -13,6 +14,7 @@ const appReducer = combineReducers({
   vehicle: vehicleReducer,
   driver: driverReducer,
   token: tokenReducer,
+  trip: tripReducer,
 });
 
 const rootReducer = (state, action) => {

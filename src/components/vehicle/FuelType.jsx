@@ -33,17 +33,25 @@ const FuelType = () => {
   return (
     <div
       className='tab-pane fade'
-      id='fuelType'
+      id='fuelTypeId'
       role='tabpanel'
       aria-labelledby='Fuel Type'
     >
-      <CustomTableStyles>
-        <CustomTable
-          columns={columns}
-          allData={vehicleFuelTypeList}
-          loading={getVehicleFuelTypeLoading}
-        />
-      </CustomTableStyles>
+      <div className='card'>
+        <div className='card-header'>
+          <div className='card-title'>Fuel Type List</div>
+        </div>
+        <div className='card-body'>
+          <CustomTableStyles>
+            <CustomTable
+              columns={columns}
+              allData={vehicleFuelTypeList}
+              loading={getVehicleFuelTypeLoading}
+            />
+          </CustomTableStyles>
+        </div>
+        <div className='card-footer'></div>
+      </div>
     </div>
   );
 };
