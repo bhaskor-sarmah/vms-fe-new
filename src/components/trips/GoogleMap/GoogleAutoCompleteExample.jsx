@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
+import classnames from "classnames";
 import { setLatLngFrom, setLatLngTo } from "../../../store/actions/TripAction";
 
 let autoCompleteFrom;
@@ -10,7 +11,8 @@ const handleScriptLoad = (
   updateQueryTo,
   autoCompleteFromRef,
   autoCompleteToRef,
-  dispatch
+  dispatch,
+  parentCallBack
 ) => {
   // Create a autocomplete for the From Location
   autoCompleteFrom = new window.google.maps.places.Autocomplete(
@@ -24,7 +26,13 @@ const handleScriptLoad = (
     "geometry",
   ]);
   autoCompleteFrom.addListener("place_changed", () =>
-    handlePlaceSelect(updateQueryFrom, autoCompleteFrom, "FROM", dispatch)
+    handlePlaceSelect(
+      updateQueryFrom,
+      autoCompleteFrom,
+      "FROM",
+      dispatch,
+      parentCallBack
+    )
   );
 
   // Create a autocomplete for the To Location
@@ -39,7 +47,13 @@ const handleScriptLoad = (
     "geometry",
   ]);
   autoCompleteTo.addListener("place_changed", () =>
-    handlePlaceSelect(updateQueryTo, autoCompleteTo, "TO", dispatch)
+    handlePlaceSelect(
+      updateQueryTo,
+      autoCompleteTo,
+      "TO",
+      dispatch,
+      parentCallBack
+    )
   );
 };
 
@@ -48,9 +62,13 @@ const handlePlaceSelect = async (
   updateQuery,
   autoComplete,
   source,
-  dispatch
+  dispatch,
+  parentCallBack
 ) => {
   const addressObject = autoComplete.getPlace();
+
+  // Sending object to prent compoment alont with source
+  parentCallBack(addressObject.formatted_address, source);
 
   // get the selected place and set it in the respective state object
   updateQuery(addressObject.formatted_address);
@@ -76,7 +94,7 @@ const handlePlaceSelect = async (
   }
 };
 
-const TripSourceDest = () => {
+const TripSourceDest = ({ parentCallBack, errorTo, errorFrom,disableFlag}) => {
   // Get select places from autocomplete on select
   const [queryFrom, setQueryFrom] = useState("");
   const [queryTo, setQueryTo] = useState("");
@@ -95,10 +113,11 @@ const TripSourceDest = () => {
         setQueryTo,
         autoCompleteFromRef,
         autoCompleteToRef,
-        dispatch
+        dispatch,
+        parentCallBack
       );
     }
-  }, [dispatch]);
+  }, [dispatch, parentCallBack]);
 
   return (
     <Fragment>
@@ -108,22 +127,20 @@ const TripSourceDest = () => {
         </label>
         <div className="col-sm-8">
           <input
-            className="form-control"
+            className={classnames("form-control", {
+              "is-invalid": errorFrom,
+            })}
             ref={autoCompleteFromRef}
             onChange={(event) => setQueryFrom(event.target.value)}
             placeholder="Select Source Address"
             value={queryFrom}
+            readonly={disableFlag}
           />
-          {/* {errors.fuelInLtrs && errors.fuelInLtrs.type === "required" && (
-                  <span role='alert' className='text-danger'>
-                    Please enter Fuel in Ltrs
-                  </span>
-                )}
-                {errors.fuelInLtrs && errors.fuelInLtrs.type === "min" && (
-                  <span role='alert' className='text-danger'>
-                    Fuel in Ltrs cannot be less than 0.
-                  </span>
-                )} */}
+          {errorFrom && (
+            <span role="alert" className="text-danger">
+              {errorFrom}
+            </span>
+          )}
         </div>
       </div>
       <div className="form-group row">
@@ -132,22 +149,20 @@ const TripSourceDest = () => {
         </label>
         <div className="col-sm-8">
           <input
-            className="form-control"
+            className={classnames("form-control", {
+              "is-invalid": errorTo,
+            })}
             ref={autoCompleteToRef}
             onChange={(event) => setQueryTo(event.target.value)}
             placeholder="Select Destination Address"
             value={queryTo}
+            readonly={disableFlag}
           />
-          {/* {errors.fuelInLtrs && errors.fuelInLtrs.type === "required" && (
-                  <span role='alert' className='text-danger'>
-                    Please enter Fuel in Ltrs
-                  </span>
-                )}
-                {errors.fuelInLtrs && errors.fuelInLtrs.type === "min" && (
-                  <span role='alert' className='text-danger'>
-                    Fuel in Ltrs cannot be less than 0.
-                  </span>
-                )} */}
+          {errorTo && (
+            <span role="alert" className="text-danger">
+              {errorTo}
+            </span>
+          )}
         </div>
       </div>
     </Fragment>

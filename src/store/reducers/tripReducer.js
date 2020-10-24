@@ -1,9 +1,12 @@
-import { SET_LON_LAT_FROM, SET_LON_LAT_TO, SET_TRIP_DISTANCE } from "../actions/types";
+import { ERRORS_GENERATE_TOKEN, GENERATE_TOKEN, GENERATE_TOKEN_LOADING, SET_LON_LAT_FROM, SET_LON_LAT_TO, SET_TRIP_DISTANCE } from "../actions/types";
 
 const initialState = {
   latLngFrom: null,
   latLngTo: null,
-  tripDistance: null
+  tripDistance: null,
+  generateTokenLoading: false,
+  generatedToken: null,
+  generateTokenError: null
 };
 
 const tripReducer = (state = initialState, action) => {
@@ -24,6 +27,24 @@ const tripReducer = (state = initialState, action) => {
       return {
         ...state,
         tripDistance: action.payload,
+      };
+    case GENERATE_TOKEN_LOADING:
+      return {
+        ...state,
+        generateTokenLoading: action.payload,
+      };
+    case GENERATE_TOKEN:
+      return {
+        ...state,
+        generateTokenLoading: false,
+        generatedToken: action.payload,
+        generateTokenError: null
+      };
+    case ERRORS_GENERATE_TOKEN:
+      return {
+        ...state,
+        generateTokenLoading: false,
+        generateTokenError: action.payload,
       };
     default:
       return state;
